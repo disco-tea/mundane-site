@@ -4,81 +4,77 @@
   function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
   function lerp(a, b, t) { return a + (b - a) * t; }
 
-  // ---- Marquee content ("SLOW DOWN" / "LOOK CLOSER" repeated, duplicated for the seamless loop) ----
-  var marqueeTrack = document.getElementById('marquee-track');
-  if (marqueeTrack) {
-    var words = [];
-    for (var i = 0; i < 8; i++) { words.push('SLOW DOWN'); words.push('LOOK CLOSER'); }
-    var items = words.concat(words);
-    var frag = document.createDocumentFragment();
-    items.forEach(function (text) {
-      var span = document.createElement('span');
-      span.className = 'word';
-      span.textContent = text;
-      frag.appendChild(span);
-    });
-    marqueeTrack.appendChild(frag);
+  // ---- Background photo grid (default view; scrolls away to reveal the copy below) ----
+  var PHOTOS = ['photo-tree.jpg', 'photo-hose.jpg', 'photo-mirror.jpg', 'photo-perrier.jpg'];
+  var POSITIONS = ['50% 25%', '50% 75%', '25% 50%', '75% 50%', '50% 50%'];
+  var COLORS = ['terracotta', 'sage', 'slate', 'ochre'];
+  var GRID_CELL_COUNT = 32;
+
+  var photoGrid = document.getElementById('photo-grid');
+  if (photoGrid) {
+    var gridFrag = document.createDocumentFragment();
+    var photoCount = 0;
+    var colorCount = 0;
+    for (var i = 0; i < GRID_CELL_COUNT; i++) {
+      var cell = document.createElement('div');
+      cell.className = 'grid-cell';
+      if (i % 4 === 3) {
+        cell.classList.add('grid-cell--' + COLORS[colorCount % COLORS.length]);
+        colorCount++;
+      } else {
+        var img = document.createElement('img');
+        img.src = 'assets/img/' + PHOTOS[photoCount % PHOTOS.length];
+        img.alt = '';
+        img.loading = i < 12 ? 'eager' : 'lazy';
+        img.style.objectPosition = POSITIONS[photoCount % POSITIONS.length];
+        photoCount++;
+        cell.appendChild(img);
+      }
+      gridFrag.appendChild(cell);
+    }
+    photoGrid.appendChild(gridFrag);
   }
 
   // ---- Nav background on scroll ----
   var nav = document.getElementById('nav');
 
-  // ---- Hero parallax tiles ----
-  var heroTiles = Array.prototype.slice.call(
-    document.querySelectorAll('#hero-field .photo-tile[data-depth]')
-  );
-
-  // ---- Slow-section progress-driven tiles ----
-  var slowSection = document.getElementById('slow-section');
-  var slowTiles = Array.prototype.slice.call(
-    document.querySelectorAll('#slow-field .photo-tile[data-start]')
-  );
-  var slowBaseRotate = slowTiles.map(function (el) {
-    var m = /rotate\(([-\d.]+)deg\)/.exec(el.style.transform || '');
-    return m ? parseFloat(m[1]) : 0;
-  });
+  // ---- Intro: grid + copy scroll away together as you leave the pinned section ----
+  var introSection = document.getElementById('intro');
+  var gridCells = photoGrid ? Array.prototype.slice.call(photoGrid.children) : [];
+  var heroCopy = document.getElementById('hero-copy');
+  var scrollCue = document.getElementById('scrollcue');
 
   function updateOnScroll() {
     var y = window.scrollY || window.pageYOffset || 0;
 
     if (nav) { nav.classList.toggle('nav-scrolled', y > 40); }
 
-    heroTiles.forEach(function (el) {
-      var depth = parseFloat(el.dataset.depth) || 0;
-      var ty = -(y * depth);
-      var rot = /rotate\(([-\d.]+)deg\)/.exec(el.style.transform || '');
-      var deg = rot ? rot[1] : '0';
-      el.style.transform = 'translate3d(0,' + ty.toFixed(1) + 'px,0) rotate(' + deg + 'deg)';
-    });
-
-    if (slowSection) {
-      var rect = slowSection.getBoundingClientRect();
+    if (introSection) {
+      var rect = introSection.getBoundingClientRect();
       var vh = window.innerHeight || 800;
       var total = rect.height - vh;
       var p = total > 0 ? clamp(-rect.top / total, 0, 1) : 0;
 
-      slowTiles.forEach(function (el, idx) {
-        var start = parseFloat(el.dataset.start) || 0;
-        var end = parseFloat(el.dataset.end) || 1;
-        var toY = parseFloat(el.dataset.toY) || 0;
+      gridCells.forEach(function (cell, idx) {
+        var stagger = (idx % 8) / 8 * 0.25;
+        var start = stagger;
+        var end = start + 0.6;
         var local = clamp((p - start) / (end - start), 0, 1);
-        var scale = lerp(0.55, 1.08, local);
-        var yStart = 26;
-        var yPos = lerp(yStart, toY, local);
-        var opacity = lerp(0.0, 0.95, clamp(local * 1.6, 0, 1));
-        var fadeLocal = clamp((p - 0.82) / 0.18, 0, 1);
-        opacity = opacity * (1 - fadeLocal * 0.8);
-        var deg = slowBaseRotate[idx];
-        var blur = Math.round(30 * local);
-        var blur2 = Math.round(60 * local);
-
-        el.style.transform = 'translate3d(0,' + yPos.toFixed(1) + '%,0) scale(' + scale.toFixed(3) + ') rotate(' + deg + 'deg)';
-        el.style.opacity = opacity.toFixed(3);
-        el.style.boxShadow = '0 ' + blur + 'px ' + blur2 + 'px rgba(0,0,0,0.5)';
-
-        var cap = el.querySelector('.cap');
-        if (cap) { cap.style.display = local > 0.5 ? '' : 'none'; }
+        var scale = lerp(1, 0.86, local);
+        var ty = lerp(0, -6, local);
+        var opacity = lerp(1, 0, local);
+        cell.style.transform = 'translate3d(0,' + ty.toFixed(2) + '%,0) scale(' + scale.toFixed(3) + ')';
+        cell.style.opacity = opacity.toFixed(3);
       });
+
+      if (heroCopy) {
+        var copyLocal = clamp(p * 1.8, 0, 1);
+        heroCopy.style.opacity = (1 - copyLocal).toFixed(3);
+        heroCopy.style.transform = 'translateY(' + lerp(0, -24, copyLocal).toFixed(1) + 'px)';
+      }
+      if (scrollCue) {
+        scrollCue.style.opacity = (1 - clamp(p * 4, 0, 1)).toFixed(3);
+      }
     }
   }
 
@@ -99,7 +95,7 @@
     revealBlock.classList.add('in');
   }
 
-  // ---- Screens slider ----
+  // ---- Prompt cards slider ----
   var track = document.getElementById('slider-track');
   var dotsWrap = document.getElementById('dots');
   var prevBtn = document.getElementById('slider-prev');

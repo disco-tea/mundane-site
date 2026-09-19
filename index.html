@@ -26,70 +26,24 @@
 </nav>
 
 <main>
-  <section class="hero">
-    <div class="hero-field" id="hero-field">
-      <div class="photo-tile" data-depth="0.10" style="left:6%;top:10%;width:200px;height:250px;transform:rotate(-7deg);">
-        <img src="assets/img/photo-tree.jpg" alt="A bare tree in fog" loading="eager">
-        <div class="cap">misty tree, morning walk</div>
-      </div>
-      <div class="photo-tile" data-depth="0.18" style="left:73%;top:6%;width:230px;height:280px;transform:rotate(6deg);">
-        <img src="assets/img/photo-hose.jpg" alt="A child watering the yard" loading="eager">
-        <div class="cap">backyard, 4:02pm</div>
-      </div>
-      <div class="photo-tile photo-tile--terracotta" data-depth="0.22" style="left:42%;top:2%;width:110px;height:140px;transform:rotate(10deg);"></div>
-      <div class="photo-tile" data-depth="0.30" style="left:2%;top:60%;width:190px;height:170px;transform:rotate(5deg);">
-        <img src="assets/img/photo-perrier.jpg" alt="A drink by the window" loading="eager">
-        <div class="cap">the treat you gave yourself</div>
-      </div>
-      <div class="photo-tile" data-depth="0.24" style="left:80%;top:56%;width:200px;height:250px;transform:rotate(-5deg);">
-        <img src="assets/img/photo-mirror.jpg" alt="A mirrored hallway portrait" loading="eager">
-        <div class="cap">an outfit that felt right</div>
-      </div>
-      <div class="photo-tile photo-tile--slate" data-depth="0.34" style="left:45%;top:72%;width:120px;height:150px;transform:rotate(-9deg);"></div>
-    </div>
+  <section class="intro" id="intro">
+    <div class="intro-sticky">
+      <div class="photo-grid" id="photo-grid" aria-hidden="true"></div>
+      <div class="intro-scrim" aria-hidden="true"></div>
 
-    <div class="hero-copy">
-      <span class="eyebrow">Pre-launch</span>
-      <h1>A new way to see the world.</h1>
-      <p class="sub">No algorithm, no ads, no feed built to hold your attention. One small prompt a day, shared with the people you actually want to see it.</p>
-      <div class="ctas">
-        <a href="#waitlist" class="btn-primary">Get early access</a>
-        <a href="#screens" class="btn-ghost">See how it works</a>
+      <div class="hero-copy" id="hero-copy">
+        <span class="eyebrow">Pre-launch</span>
+        <h1>A new way to see the world.</h1>
+        <p class="sub">No algorithm, no ads, no feed built to hold your attention. One small prompt a day, shared with the people you actually want to see it.</p>
+        <div class="ctas">
+          <a href="#waitlist" class="btn-primary">Get early access</a>
+          <a href="#prompts" class="btn-ghost">See how it works</a>
+        </div>
       </div>
-    </div>
 
-    <div class="scrollcue">
-      <span class="label">SCROLL</span>
-      <span class="line"></span>
-    </div>
-  </section>
-
-  <section class="section-slow" id="slow-section">
-    <div class="slow-sticky">
-      <div class="slow-field" id="slow-field">
-        <div class="photo-tile" data-start="0.02" data-end="0.55" data-to-y="-4" style="left:6%;top:8%;width:20%;height:26vh;transform:rotate(-6deg);">
-          <img src="assets/img/photo-tree.jpg" alt="A bare tree in fog" loading="lazy">
-          <div class="cap">misty tree, morning walk</div>
-        </div>
-        <div class="photo-tile" data-start="0.08" data-end="0.62" data-to-y="-6" style="left:74%;top:6%;width:21%;height:27vh;transform:rotate(5deg);">
-          <img src="assets/img/photo-hose.jpg" alt="A child watering the yard" loading="lazy">
-          <div class="cap">backyard, 4:02pm</div>
-        </div>
-        <div class="photo-tile photo-tile--ochre" data-start="0.0" data-end="0.5" data-to-y="-3" style="left:44%;top:4%;width:11%;height:14vh;transform:rotate(9deg);"></div>
-        <div class="photo-tile" data-start="0.12" data-end="0.68" data-to-y="5" style="left:3%;top:62%;width:19%;height:20vh;transform:rotate(6deg);">
-          <img src="assets/img/photo-perrier.jpg" alt="A drink by the window" loading="lazy">
-          <div class="cap">the treat you gave yourself</div>
-        </div>
-        <div class="photo-tile" data-start="0.05" data-end="0.6" data-to-y="5" style="left:76%;top:60%;width:20%;height:25vh;transform:rotate(-5deg);">
-          <img src="assets/img/photo-mirror.jpg" alt="A mirrored hallway portrait" loading="lazy">
-          <div class="cap">an outfit that felt right</div>
-        </div>
-        <div class="photo-tile photo-tile--slate" data-start="0.16" data-end="0.7" data-to-y="6" style="left:47%;top:78%;width:12%;height:15vh;transform:rotate(-8deg);"></div>
-        <div class="photo-tile photo-tile--sage" data-start="0.2" data-end="0.66" data-to-y="0" style="left:16%;top:38%;width:10%;height:13vh;transform:rotate(5deg);"></div>
-        <div class="photo-tile photo-tile--terracotta" data-start="0.14" data-end="0.6" data-to-y="0" style="left:84%;top:34%;width:10%;height:13vh;transform:rotate(-6deg);"></div>
-      </div>
-      <div class="marquee">
-        <div class="marquee-track" id="marquee-track"></div>
+      <div class="scrollcue" id="scrollcue">
+        <span class="label">SCROLL</span>
+        <span class="line"></span>
       </div>
     </div>
   </section>
@@ -116,42 +70,60 @@
     </div>
   </section>
 
-  <section class="screens" id="screens">
-    <div class="screens-head">
-      <h2>A quiet corner of your phone</h2>
-      <p>No feed to game. Just today's prompt, your people, and what you noticed.</p>
+  <section class="prompts" id="prompts">
+    <div class="prompts-head">
+      <h2>Not a feed. A practice.</h2>
+      <p>One small nudge to look up — no scrolling, no performing, no followers.</p>
     </div>
     <div class="slider-wrap">
       <div class="slider" id="slider-track">
         <div class="slide">
-          <div class="frame"><img src="assets/img/shot-onboarding.jpg" alt="Mundane onboarding screen" loading="lazy"></div>
-          <div class="cap"><div class="t">A new prompt, every day</div><div class="d">One small nudge to look up.</div></div>
+          <div class="prompt-card prompt-card--terracotta">
+            <span class="pc-eyebrow">Today's prompt</span>
+            <p class="pc-text">The bench outside your building.</p>
+            <span class="pc-note">Something you walk past without seeing.</span>
+          </div>
         </div>
         <div class="slide">
-          <div class="frame"><img src="assets/img/shot-today.jpg" alt="Today's prompt and calendar" loading="lazy"></div>
-          <div class="cap"><div class="t">Today's prompt</div><div class="d">A building you walk by every day.</div></div>
+          <div class="prompt-card prompt-card--slate">
+            <span class="pc-eyebrow">Today's prompt</span>
+            <p class="pc-text">The spot your dog claims in the sun.</p>
+            <span class="pc-note">A tiny ritual that's already yours.</span>
+          </div>
         </div>
         <div class="slide">
-          <div class="frame"><img src="assets/img/shot-capture.jpg" alt="Capturing a photo for the board" loading="lazy"></div>
-          <div class="cap"><div class="t">One photo, one prompt</div><div class="d">No filters, no retake race.</div></div>
+          <div class="prompt-card prompt-card--action">
+            <span class="pc-eyebrow">Today's prompt</span>
+            <p class="pc-text">The door you never open.</p>
+            <span class="pc-note">Curiosity, not content.</span>
+          </div>
         </div>
         <div class="slide">
-          <div class="frame"><img src="assets/img/shot-board.jpg" alt="Today's board of photos" loading="lazy"></div>
-          <div class="cap"><div class="t">Today's board</div><div class="d">Everyone answering the same prompt.</div></div>
+          <div class="prompt-card prompt-card--sage">
+            <span class="pc-eyebrow">Today's prompt</span>
+            <p class="pc-text">The light in your kitchen at 4pm.</p>
+            <span class="pc-note">Ordinary, until you look.</span>
+          </div>
         </div>
         <div class="slide">
-          <div class="frame"><img src="assets/img/shot-tips.jpg" alt="A photography tip" loading="lazy"></div>
-          <div class="cap"><div class="t">A tip, not a trick</div><div class="d">Craft notes, never engagement bait.</div></div>
+          <div class="prompt-card prompt-card--ochre">
+            <span class="pc-eyebrow">Today's prompt</span>
+            <p class="pc-text">An outfit that felt right.</p>
+            <span class="pc-note">Not for anyone else — just for you.</span>
+          </div>
         </div>
         <div class="slide">
-          <div class="frame"><img src="assets/img/shot-profile.jpg" alt="A profile with a streak" loading="lazy"></div>
-          <div class="cap"><div class="t">People, not followers</div><div class="d">No follower counts to chase.</div></div>
+          <div class="prompt-card prompt-card--surface">
+            <span class="pc-eyebrow">Today's prompt</span>
+            <p class="pc-text">The corner of your desk, right now.</p>
+            <span class="pc-note">Proof you were here today.</span>
+          </div>
         </div>
       </div>
       <div class="slider-nav">
-        <button type="button" class="slider-btn" aria-label="Previous screen" id="slider-prev">&#8592;</button>
+        <button type="button" class="slider-btn" aria-label="Previous prompt" id="slider-prev">&#8592;</button>
         <div class="dots" id="dots"></div>
-        <button type="button" class="slider-btn" aria-label="Next screen" id="slider-next">&#8594;</button>
+        <button type="button" class="slider-btn" aria-label="Next prompt" id="slider-next">&#8594;</button>
       </div>
     </div>
   </section>
