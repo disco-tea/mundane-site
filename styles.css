@@ -96,11 +96,22 @@ a { color: inherit; text-decoration: none; }
   background: var(--surface2);
   will-change: transform, opacity;
 }
-.grid-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cell-inner {
+  width: 100%;
+  height: 100%;
+  animation-name: flicker;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+.cell-inner img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .grid-cell--terracotta { background: linear-gradient(160deg, #8b4539, #5a2d26); }
 .grid-cell--sage { background: linear-gradient(160deg, #546449, #32362a); }
 .grid-cell--slate { background: linear-gradient(160deg, #343e4d, #1e2632); }
 .grid-cell--ochre { background: linear-gradient(160deg, #765e3e, #503e28); }
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
+}
 
 .grain {
   position: fixed;
@@ -130,7 +141,7 @@ a { color: inherit; text-decoration: none; }
 }
 .wordmark { font-family: var(--mono); font-weight: 700; font-size: 15px; letter-spacing: 0.06em; color: var(--text); }
 
-.intro { position: relative; scroll-snap-align: start; height: 200vh; }
+.intro { position: relative; scroll-snap-align: start; height: 150vh; }
 .intro-sticky {
   position: sticky;
   top: 0;
@@ -167,7 +178,7 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   gap: 22px;
 }
-.hero h1 {
+.hero-copy h1 {
   margin: 0;
   font-family: var(--mono);
   font-weight: 700;
@@ -176,7 +187,7 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: -0.01em;
   color: var(--text);
 }
-.hero p.sub {
+.hero-copy p.sub {
   margin: 0;
   font-family: var(--mono);
   font-size: 15px;
@@ -184,7 +195,7 @@ a { color: inherit; text-decoration: none; }
   color: rgba(250, 243, 242, 0.72);
   max-width: 560px;
 }
-.hero .ctas { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 6px; }
+.hero-copy .ctas { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 6px; }
 
 .scrollcue {
   position: absolute;
@@ -211,7 +222,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .reveal-section { position: relative; scroll-snap-align: start; background: var(--bg); }
-.reveal-wrap { position: relative; z-index: 5; padding: 14vh 24px 16vh; display: flex; flex-direction: column; align-items: center; gap: 40px; }
+.reveal-wrap { position: relative; z-index: 5; padding: 9vh 24px 11vh; display: flex; flex-direction: column; align-items: center; gap: 40px; }
 .reveal {
   opacity: 0;
   transform: translateY(36px);
@@ -249,7 +260,19 @@ form.wf button { flex: 0 0 auto; }
 .waitlist .note { font-family: var(--mono); font-size: 11px; color: rgba(250, 243, 242, 0.45); }
 .thanks { font-family: var(--mono); font-size: 15px; color: var(--text); text-align: center; padding: 18px 0; }
 
-.prompts { position: relative; padding: 14vh 0 12vh; scroll-snap-align: start; }
+.prompts { position: relative; padding: 14vh 0 12vh; scroll-snap-align: start; overflow: hidden; }
+.prompt-field { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.floating-prompt {
+  position: absolute;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: rgba(250, 243, 242, 0.38);
+  white-space: nowrap;
+  animation-name: flicker;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+.prompts-head, .slider-wrap { position: relative; z-index: 1; }
 .prompts-head { max-width: 640px; margin: 0 auto 56px; padding: 0 24px; text-align: center; display: flex; flex-direction: column; gap: 14px; align-items: center; }
 .prompts-head h2 { margin: 0; font-family: var(--mono); font-weight: 700; font-size: clamp(24px, 3.6vw, 34px); color: var(--text); }
 .prompts-head p { margin: 0; font-family: var(--mono); font-size: 14px; color: rgba(250, 243, 242, 0.65); max-width: 440px; }
@@ -322,10 +345,11 @@ form.wf button { flex: 0 0 auto; }
   form.wf button { width: 100%; }
   .intro-sticky { padding: 0 18px; }
   .photo-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); grid-auto-rows: minmax(110px, 1fr); }
+  .prompt-field { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .scrollcue .line, .prompt-card { animation: none; }
+  .scrollcue .line, .prompt-card, .cell-inner, .floating-prompt { animation: none; }
   .grid-cell, .reveal { transition: none; }
 }

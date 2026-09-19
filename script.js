@@ -10,6 +10,12 @@
   var COLORS = ['terracotta', 'sage', 'slate', 'ochre'];
   var GRID_CELL_COUNT = 32;
 
+  function randomFlicker(el, minDur, maxDur) {
+    var dur = minDur + Math.random() * (maxDur - minDur);
+    el.style.animationDuration = dur.toFixed(2) + 's';
+    el.style.animationDelay = '-' + (Math.random() * dur).toFixed(2) + 's';
+  }
+
   var photoGrid = document.getElementById('photo-grid');
   if (photoGrid) {
     var gridFrag = document.createDocumentFragment();
@@ -18,8 +24,10 @@
     for (var i = 0; i < GRID_CELL_COUNT; i++) {
       var cell = document.createElement('div');
       cell.className = 'grid-cell';
+      var inner = document.createElement('div');
+      inner.className = 'cell-inner';
       if (i % 4 === 3) {
-        cell.classList.add('grid-cell--' + COLORS[colorCount % COLORS.length]);
+        inner.classList.add('grid-cell--' + COLORS[colorCount % COLORS.length]);
         colorCount++;
       } else {
         var img = document.createElement('img');
@@ -28,11 +36,54 @@
         img.loading = i < 12 ? 'eager' : 'lazy';
         img.style.objectPosition = POSITIONS[photoCount % POSITIONS.length];
         photoCount++;
-        cell.appendChild(img);
+        inner.appendChild(img);
       }
+      randomFlicker(inner, 4, 11);
+      cell.appendChild(inner);
       gridFrag.appendChild(cell);
     }
     photoGrid.appendChild(gridFrag);
+  }
+
+  // ---- Floating prompt phrases (walkthrough section) — ambient, same flicker technique ----
+  var FLOATING_PROMPTS = [
+    'The mug you always reach for.',
+    'A window you never look out of.',
+    'The walk you do without thinking.',
+    'Something someone left behind.',
+    'The sound of your street at night.',
+    'A shadow you like.',
+    'The last thing you fixed.',
+    'A smell that means home.',
+    'The chair no one sits in.',
+    'Where the light lands at noon.',
+    'A stranger’s kindness.',
+    'The thing you almost threw away.',
+    'Your hands, doing something ordinary.',
+    'A corner you’ve never photographed.'
+  ];
+  var FLOATING_POSITIONS = [
+    { top: '4%', left: '3%' }, { top: '10%', left: '68%' }, { top: '22%', left: '18%' },
+    { top: '6%', left: '42%' }, { top: '32%', left: '80%' }, { top: '48%', left: '6%' },
+    { top: '58%', left: '52%' }, { top: '16%', left: '88%' }, { top: '68%', left: '28%' },
+    { top: '42%', left: '35%' }, { top: '76%', left: '66%' }, { top: '2%', left: '83%' },
+    { top: '84%', left: '10%' }, { top: '30%', left: '2%' }
+  ];
+  var promptField = document.getElementById('prompt-field');
+  if (promptField) {
+    var pfFrag = document.createDocumentFragment();
+    FLOATING_PROMPTS.forEach(function (text, idx) {
+      var span = document.createElement('span');
+      span.className = 'floating-prompt';
+      span.textContent = text;
+      var pos = FLOATING_POSITIONS[idx % FLOATING_POSITIONS.length];
+      span.style.top = pos.top;
+      span.style.left = pos.left;
+      span.style.fontSize = (12 + (idx % 3) * 2) + 'px';
+      randomFlicker(span, 5, 12);
+      pfFrag.appendChild(span);
+    });
+    promptField.appendChild(pfFrag);
   }
 
   // ---- Nav background on scroll ----
