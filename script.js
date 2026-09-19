@@ -111,8 +111,7 @@
 
     if (introSection) {
       var rect = introSection.getBoundingClientRect();
-      var vh = window.innerHeight || 800;
-      var total = rect.height - vh;
+      var total = rect.height;
       var p = total > 0 ? clamp(-rect.top / total, 0, 1) : 0;
 
       gridCells.forEach(function (cell, idx) {
