@@ -221,8 +221,30 @@ a { color: inherit; text-decoration: none; }
   100% { transform: scaleY(0.3); transform-origin: top; }
 }
 
+.marquee-strip {
+  position: relative;
+  overflow: hidden;
+  padding: 36px 0;
+  border-top: 1px solid rgba(218, 227, 240, 0.12);
+  border-bottom: 1px solid rgba(218, 227, 240, 0.12);
+  background: var(--bg);
+}
+.marquee-track { display: flex; align-items: center; width: max-content; white-space: nowrap; animation: marquee 34s linear infinite; }
+.marquee-track span.word {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(26px, 3.6vw, 48px);
+  letter-spacing: -0.01em;
+  color: var(--text);
+  padding: 0 0.6em;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
 .reveal-section { position: relative; scroll-snap-align: start; background: var(--bg); }
-.reveal-wrap { position: relative; z-index: 5; padding: 9vh 24px 11vh; display: flex; flex-direction: column; align-items: center; gap: 40px; }
+.reveal-wrap { position: relative; z-index: 5; padding: 12vh 24px 14vh; display: flex; flex-direction: column; align-items: center; gap: 40px; }
 .reveal {
   opacity: 0;
   transform: translateY(36px);
@@ -266,11 +288,15 @@ form.wf button { flex: 0 0 auto; }
   position: absolute;
   font-family: var(--mono);
   font-size: 13px;
-  color: rgba(250, 243, 242, 0.38);
+  color: var(--blue);
   white-space: nowrap;
-  animation-name: flicker;
+  animation-name: text-flicker;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
+}
+@keyframes text-flicker {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.8; }
 }
 .prompts-head, .slider-wrap { position: relative; z-index: 1; }
 .prompts-head { max-width: 640px; margin: 0 auto 56px; padding: 0 24px; text-align: center; display: flex; flex-direction: column; gap: 14px; align-items: center; }
@@ -350,6 +376,6 @@ form.wf button { flex: 0 0 auto; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .scrollcue .line, .prompt-card, .cell-inner, .floating-prompt { animation: none; }
+  .scrollcue .line, .prompt-card, .cell-inner, .floating-prompt, .marquee-track { animation: none; }
   .grid-cell, .reveal { transition: none; }
 }

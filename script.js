@@ -45,29 +45,23 @@
     photoGrid.appendChild(gridFrag);
   }
 
-  // ---- Floating prompt phrases (walkthrough section) — ambient, same flicker technique ----
+  // ---- Floating prompt phrases (walkthrough section) — ambient, kept to the margins so
+  // they never sit on top of the heading or cards; fade fully in and out, never tied to scroll ----
   var FLOATING_PROMPTS = [
     'The mug you always reach for.',
     'A window you never look out of.',
-    'The walk you do without thinking.',
-    'Something someone left behind.',
     'The sound of your street at night.',
     'A shadow you like.',
-    'The last thing you fixed.',
-    'A smell that means home.',
     'The chair no one sits in.',
     'Where the light lands at noon.',
-    'A stranger’s kindness.',
-    'The thing you almost threw away.',
     'Your hands, doing something ordinary.',
     'A corner you’ve never photographed.'
   ];
   var FLOATING_POSITIONS = [
-    { top: '4%', left: '3%' }, { top: '10%', left: '68%' }, { top: '22%', left: '18%' },
-    { top: '6%', left: '42%' }, { top: '32%', left: '80%' }, { top: '48%', left: '6%' },
-    { top: '58%', left: '52%' }, { top: '16%', left: '88%' }, { top: '68%', left: '28%' },
-    { top: '42%', left: '35%' }, { top: '76%', left: '66%' }, { top: '2%', left: '83%' },
-    { top: '84%', left: '10%' }, { top: '30%', left: '2%' }
+    { top: '3%', left: '5%' }, { top: '2%', left: '58%' },
+    { top: '6%', left: '32%' }, { top: '5%', left: '82%' },
+    { top: '95%', left: '8%' }, { top: '93%', left: '60%' },
+    { top: '96%', left: '35%' }, { top: '92%', left: '84%' }
   ];
   var promptField = document.getElementById('prompt-field');
   if (promptField) {
@@ -79,11 +73,26 @@
       var pos = FLOATING_POSITIONS[idx % FLOATING_POSITIONS.length];
       span.style.top = pos.top;
       span.style.left = pos.left;
-      span.style.fontSize = (12 + (idx % 3) * 2) + 'px';
-      randomFlicker(span, 5, 12);
+      randomFlicker(span, 6, 13);
       pfFrag.appendChild(span);
     });
     promptField.appendChild(pfFrag);
+  }
+
+  // ---- Infinite marquee strip ("SLOW DOWN" / "LOOK CLOSER") — pure CSS loop, not tied to scroll ----
+  var marqueeTrack = document.getElementById('marquee-track');
+  if (marqueeTrack) {
+    var marqueeWords = [];
+    for (var m = 0; m < 8; m++) { marqueeWords.push('SLOW DOWN'); marqueeWords.push('LOOK CLOSER'); }
+    var marqueeItems = marqueeWords.concat(marqueeWords);
+    var marqueeFrag = document.createDocumentFragment();
+    marqueeItems.forEach(function (text) {
+      var span = document.createElement('span');
+      span.className = 'word';
+      span.textContent = text;
+      marqueeFrag.appendChild(span);
+    });
+    marqueeTrack.appendChild(marqueeFrag);
   }
 
   // ---- Nav background on scroll ----
