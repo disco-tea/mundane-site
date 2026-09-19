@@ -56,7 +56,7 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
   gap: 8px;
   padding: 16px 28px;
-  border-radius: 999px;
+  border-radius: 8px;
   font-family: var(--sans);
   font-size: 14px;
   font-weight: 500;
@@ -75,7 +75,7 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   justify-content: center;
   padding: 15px 27px;
-  border-radius: 999px;
+  border-radius: 8px;
   font-family: var(--sans);
   font-size: 14px;
   font-weight: 500;
@@ -92,7 +92,6 @@ a { color: inherit; text-decoration: none; }
 
 .photo-tile {
   position: absolute;
-  border-radius: 14px;
   overflow: hidden;
   border: 1px solid rgba(218, 227, 240, 0.35);
   background: var(--surface2);
@@ -206,10 +205,10 @@ a { color: inherit; text-decoration: none; }
   100% { transform: scaleY(0.3); transform-origin: top; }
 }
 
-.section-slow { position: relative; scroll-snap-align: start; }
+.section-slow { position: relative; scroll-snap-align: start; height: 200vh; }
 .slow-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
 .marquee { position: relative; z-index: 5; width: 100%; overflow: hidden; padding: 0; }
-.marquee-track { display: flex; align-items: center; width: max-content; white-space: nowrap; animation: marquee 26s linear infinite; }
+.marquee-track { display: flex; align-items: center; width: max-content; white-space: nowrap; animation: marquee 110s linear infinite; }
 .marquee-track span.word {
   font-family: var(--display);
   font-weight: 700;
@@ -225,6 +224,7 @@ a { color: inherit; text-decoration: none; }
 }
 .slow-field { position: absolute; inset: 0; z-index: 1; }
 
+.reveal-section { position: relative; scroll-snap-align: start; background: var(--bg); }
 .reveal-wrap { position: relative; z-index: 5; padding: 14vh 24px 16vh; display: flex; flex-direction: column; align-items: center; gap: 40px; }
 .reveal {
   opacity: 0;
@@ -272,7 +272,6 @@ form.wf button { flex: 0 0 auto; }
 .slider::-webkit-scrollbar { display: none; }
 .slide { scroll-snap-align: center; flex: 0 0 auto; width: min(72vw, 300px); }
 .slide .frame {
-  border-radius: 26px;
   overflow: hidden;
   border: 1px solid rgba(218, 227, 240, 0.3);
   background: var(--surface2);
