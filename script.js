@@ -45,40 +45,6 @@
     photoGrid.appendChild(gridFrag);
   }
 
-  // ---- Floating prompt phrases (walkthrough section) — ambient, kept to the margins so
-  // they never sit on top of the heading or cards; fade fully in and out, never tied to scroll ----
-  var FLOATING_PROMPTS = [
-    'The mug you always reach for.',
-    'A window you never look out of.',
-    'The sound of your street at night.',
-    'A shadow you like.',
-    'The chair no one sits in.',
-    'Where the light lands at noon.',
-    'Your hands, doing something ordinary.',
-    'A corner you’ve never photographed.'
-  ];
-  var FLOATING_POSITIONS = [
-    { top: '3%', left: '5%' }, { top: '2%', left: '58%' },
-    { top: '6%', left: '32%' }, { top: '5%', left: '82%' },
-    { top: '95%', left: '8%' }, { top: '93%', left: '60%' },
-    { top: '96%', left: '35%' }, { top: '92%', left: '84%' }
-  ];
-  var promptField = document.getElementById('prompt-field');
-  if (promptField) {
-    var pfFrag = document.createDocumentFragment();
-    FLOATING_PROMPTS.forEach(function (text, idx) {
-      var span = document.createElement('span');
-      span.className = 'floating-prompt';
-      span.textContent = text;
-      var pos = FLOATING_POSITIONS[idx % FLOATING_POSITIONS.length];
-      span.style.top = pos.top;
-      span.style.left = pos.left;
-      randomFlicker(span, 6, 13);
-      pfFrag.appendChild(span);
-    });
-    promptField.appendChild(pfFrag);
-  }
-
   // ---- Infinite marquee strip ("SLOW DOWN" / "LOOK CLOSER") — pure CSS loop, not tied to scroll ----
   var marqueeTrack = document.getElementById('marquee-track');
   if (marqueeTrack) {

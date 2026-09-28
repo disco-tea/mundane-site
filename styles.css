@@ -283,43 +283,70 @@ form.wf button { flex: 0 0 auto; }
 .waitlist .note { font-family: var(--mono); font-size: 11px; color: rgba(250, 243, 242, 0.45); }
 .thanks { font-family: var(--mono); font-size: 15px; color: var(--text); text-align: center; padding: 18px 0; }
 
-.prompts { position: relative; padding: 14vh 0 12vh; scroll-snap-align: start; overflow: hidden; }
-.prompt-field { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-.floating-prompt {
-  position: absolute;
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--blue);
-  white-space: nowrap;
-  animation-name: text-flicker;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
-@keyframes text-flicker {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 0.8; }
-}
-.prompts-head, .slider-wrap { position: relative; z-index: 1; }
+.prompts { position: relative; padding: 14vh 0 12vh; scroll-snap-align: start; }
 .prompts-head { max-width: 640px; margin: 0 auto 56px; padding: 0 24px; text-align: center; display: flex; flex-direction: column; gap: 14px; align-items: center; }
 .prompts-head h2 { margin: 0; font-family: var(--mono); font-weight: 700; font-size: clamp(24px, 3.6vw, 34px); color: var(--text); }
 .prompts-head p { margin: 0; font-family: var(--mono); font-size: 14px; color: rgba(250, 243, 242, 0.65); max-width: 440px; }
 .slider-wrap { position: relative; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-.slider { display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x proximity; padding: 6px 4px 28px; scrollbar-width: none; }
+.slider { display: flex; align-items: flex-start; gap: 24px; overflow-x: auto; scroll-snap-type: x proximity; padding: 6px 4px 28px; scrollbar-width: none; }
 .slider::-webkit-scrollbar { display: none; }
 .slide { scroll-snap-align: center; flex: 0 0 auto; width: min(72vw, 300px); }
 .prompt-card {
-  aspect-ratio: 3 / 4;
-  padding: 32px 28px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  aspect-ratio: 3 / 4;
+  padding: 32px 28px;
   border: 1px solid rgba(218, 227, 240, 0.3);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
   animation: floaty 8s ease-in-out infinite;
 }
+.prompt-card[open] { aspect-ratio: auto; animation: none; }
+.prompt-card:hover { animation-play-state: paused; }
+.pc-summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  flex: 1;
+  cursor: pointer;
+  list-style: none;
+}
+.pc-summary::-webkit-details-marker { display: none; }
+.pc-top { display: flex; flex-direction: column; gap: 10px; }
 .pc-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255, 255, 255, 0.7); }
 .pc-text { margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.25; color: var(--text); }
-.pc-note { font-family: var(--mono); font-size: 12px; color: rgba(255, 255, 255, 0.6); }
+.pc-arrow {
+  align-self: flex-end;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  transition: background 200ms ease;
+}
+.pc-arrow svg { transition: transform 220ms ease; }
+.prompt-card[open] .pc-arrow svg { transform: rotate(180deg); }
+.pc-summary:hover .pc-arrow { background: rgba(255, 255, 255, 0.12); }
+.pc-gallery {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+.pc-gallery::-webkit-scrollbar { display: none; }
+.pc-gallery img {
+  flex: 0 0 auto;
+  width: 92px;
+  height: 92px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
 .prompt-card--terracotta { background: linear-gradient(160deg, #8b4539, #5a2d26); }
 .prompt-card--sage { background: linear-gradient(160deg, #546449, #32362a); }
 .prompt-card--slate { background: linear-gradient(160deg, #343e4d, #1e2632); }
@@ -373,11 +400,10 @@ form.wf button { flex: 0 0 auto; }
   form.wf button { width: 100%; }
   .intro-sticky { padding: 0 18px; }
   .photo-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); grid-auto-rows: minmax(110px, 1fr); }
-  .prompt-field { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .scrollcue .line, .prompt-card, .cell-inner, .floating-prompt, .marquee-track { animation: none; }
+  .scrollcue .line, .prompt-card, .cell-inner, .marquee-track { animation: none; }
   .grid-cell, .reveal { transition: none; }
 }
