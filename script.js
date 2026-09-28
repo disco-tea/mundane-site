@@ -120,7 +120,49 @@
     revealBlock.classList.add('in');
   }
 
-  // ---- Prompt cards slider ----
+  // ---- Prompt cards: arrow opens a thumbnail carousel, one card open at a time ----
+  var promptSlides = Array.prototype.slice.call(document.querySelectorAll('.prompts .slide'));
+  promptSlides.forEach(function (slide) {
+    var arrowBtn = slide.querySelector('.pc-arrow');
+    var carousel = slide.querySelector('.pc-carousel');
+    var mainImg = carousel ? carousel.querySelector('.pc-carousel-main img') : null;
+    var thumbs = Array.prototype.slice.call(slide.querySelectorAll('.pc-thumb'));
+    if (!arrowBtn || !carousel) { return; }
+
+    arrowBtn.addEventListener('click', function () {
+      var willOpen = !slide.classList.contains('is-open');
+
+      promptSlides.forEach(function (other) {
+        if (other === slide) { return; }
+        other.classList.remove('is-open');
+        var otherArrow = other.querySelector('.pc-arrow');
+        var otherCarousel = other.querySelector('.pc-carousel');
+        if (otherArrow) { otherArrow.setAttribute('aria-expanded', 'false'); }
+        if (otherCarousel) { otherCarousel.hidden = true; }
+      });
+
+      slide.classList.toggle('is-open', willOpen);
+      arrowBtn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      carousel.hidden = !willOpen;
+    });
+
+    thumbs.forEach(function (thumb) {
+      thumb.addEventListener('click', function () {
+        if (!mainImg) { return; }
+        var thumbImg = thumb.querySelector('img');
+        if (!thumbImg || mainImg.src === thumbImg.src) { return; }
+        thumbs.forEach(function (t) { t.classList.toggle('is-active', t === thumb); });
+        mainImg.classList.add('is-fading');
+        window.setTimeout(function () {
+          mainImg.src = thumbImg.src;
+          mainImg.alt = thumb.getAttribute('aria-label') || mainImg.alt;
+          mainImg.classList.remove('is-fading');
+        }, 180);
+      });
+    });
+  });
+
+  // ---- Prompt cards slider (mobile / non-hover fallback nav) ----
   var track = document.getElementById('slider-track');
   var dotsWrap = document.getElementById('dots');
   var prevBtn = document.getElementById('slider-prev');
